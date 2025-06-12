@@ -99,6 +99,19 @@ async function run() {
       res.send(result);
     });
 
+    app.patch("/applications/:id", async (req, res) => {
+      const id = req.params.id;
+      const updated = req.body;
+      const filter = { _id: new ObjectId(id) };
+      const updatedDoc = {
+        $set: {
+          status: req.body.status,
+        },
+      };
+      const result = await applicationsCollection.updateOne(filter, updatedDoc);
+      res.send(result);
+    });
+
     // Routes
     app.get("/", (req, res) => {
       res.send("Career Code server is running and MongoDB is connected ✅");
